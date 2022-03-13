@@ -11,4 +11,6 @@ add_executable(rfrakt rfrakt.cpp)
 add_executable(qrfrakt qrfrakt.cpp)
 target_link_libraries(qrfrakt Qt5::Widgets)
 
+install(TARGETS qrfrakt rfrakt)
+
 # EOF #
