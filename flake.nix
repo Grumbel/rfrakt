@@ -2,7 +2,7 @@ rec {
   description = "A fractal/aliasing/moire-pattern thingy...";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -11,7 +11,8 @@ rec {
       let
         pkgs = nixpkgs.legacyPackages.${system};
       in rec {
-        packages = flake-utils.lib.flattenTree rec {
+        packages = rec {
+          default = rfrakt;
 
           rfrakt = pkgs.stdenv.mkDerivation {
             pname = "rfrakt";
@@ -25,11 +26,20 @@ rec {
             buildInputs = [
               pkgs.qt5.qtbase
             ];
-            meta = {
-              mainProgram = "qrfrakt";
-            };
            };
         };
-        defaultPackage = packages.rfrakt;
-      });
+
+        apps = rec {
+          default = qrfrakt;
+          qrfrakt = {
+            type = "app";
+            program = "${packages.rfrakt}/bin/qrfrakt";
+          };
+          rfrakt = {
+            type = "app";
+            program = "${packages.rfrakt}/bin/rfrakt";
+          };
+        };
+      }
+    );
 }
