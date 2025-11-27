@@ -2,7 +2,7 @@ rec {
   description = "A fractal/aliasing/moire-pattern thingy...";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -20,7 +20,7 @@ rec {
             src = nixpkgs.lib.cleanSource ./.;
             nativeBuildInputs = [
               pkgs.cmake
-              pkgs.pkgconfig
+              pkgs.pkg-config
               pkgs.qt5.wrapQtAppsHook
             ];
             buildInputs = [
